@@ -4,4 +4,5 @@ version := "0.1"
 
 scalaVersion := "2.12.7"
 
-libraryDependencies += "io.scalaland" %% "chimney" % "0.3.5"
+// https://mvnrepository.com/artifact/io.scalaland/chimney
+libraryDependencies += "io.scalaland" %% "chimney" % "0.4.0"

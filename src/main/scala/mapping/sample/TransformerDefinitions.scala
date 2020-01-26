@@ -1,32 +1,61 @@
 package mapping.sample
 
 import io.scalaland.chimney.Transformer
-import io.scalaland.chimney.dsl._
+//import mapping.sample.TransformerDefinitions.secondLevelNestedObjectTransformer
 
-object TransformerDefinitions {
+//object TransformerDefinitions {
+//
+//  val secondLevelNestedObjectTransformer : Transformer[SourceSecondLevelNestedObject, TargetSecondLevelNestedObject]={
+//      _.into[TargetSecondLevelNestedObject]
+//      .withFieldRenamed(_.sourceSecondLevelNestedItemName,_.targetSecondLevelNestedItemName)
+//      .transform
+//  }
+//
+//  val nestedItemTransformer: Transformer[SourceNestedItem, TargetNestedItem] = {
+//
+//    implicit val v = secondLevelNestedObjectTransformer
+//    _.into[TargetNestedItem]
+//      .withFieldRenamed(_.sourceNestedItemName, _.targetNestedItemName)
+//      .withFieldRenamed(_.sourceSecondLevelNestedList,_.targetSecondLevelNestedList)
+//      .transform
+//  }
+//
+//
+//  val rootObjectTransformer: Transformer[RootSourceObject, RootTargetObject] = {
+//     implicit val justForImport = nestedItemTransformer
+//
+//    _.into[RootTargetObject]
+//      .withFieldRenamed(_.sourceName, _.targetName)
+//      .withFieldRenamed(_.sourceNestedItemList, _.targetNestedItemList)
+//      .transform
+//  }
+//}
 
-  val secondLevelNestedObjectTransformer : Transformer[SourceSecondLevelNestedObject, TargetSecondLevelNestedObject]={
-      _.into[TargetSecondLevelNestedObject]
-      .withFieldRenamed(_.sourceSecondLevelNestedItemName,_.targetSecondLevelNestedItemName)
-      .transform
+
+object Mappers {
+
+  implicit val secondLevelNestedObjectTransformer: Transformer[SourceSecondLevelNestedObject, TargetSecondLevelNestedObject] = {
+    Transformer.define[SourceSecondLevelNestedObject, TargetSecondLevelNestedObject]
+      .withFieldRenamed(_.sourceSecondLevelNestedItemName, _.targetSecondLevelNestedItemName)
+      .buildTransformer
   }
 
-  val nestedItemTransformer: Transformer[SourceNestedItem, TargetNestedItem] = {
 
-    implicit val v = secondLevelNestedObjectTransformer
-    _.into[TargetNestedItem]
+  implicit val nestedItemTransformer: Transformer[SourceNestedItem, TargetNestedItem] = {
+
+    Transformer.define[SourceNestedItem, TargetNestedItem]
       .withFieldRenamed(_.sourceNestedItemName, _.targetNestedItemName)
-      .withFieldRenamed(_.sourceSecondLevelNestedList,_.targetSecondLevelNestedList)
-      .transform
+      .withFieldRenamed(_.sourceSecondLevelNestedList, _.targetSecondLevelNestedList)
+      .buildTransformer
   }
 
 
-  val rootObjectTransformer: Transformer[RootSourceObject, RootTargetObject] = {
-     implicit val justForImport = nestedItemTransformer
+  implicit val rootObjectTransformer: Transformer[RootSourceObject, RootTargetObject] = {
 
-    _.into[RootTargetObject]
+    Transformer.define[RootSourceObject, RootTargetObject]
       .withFieldRenamed(_.sourceName, _.targetName)
       .withFieldRenamed(_.sourceNestedItemList, _.targetNestedItemList)
-      .transform
+      .buildTransformer
   }
+
 }
