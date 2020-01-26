@@ -34,28 +34,21 @@ import io.scalaland.chimney.Transformer
 
 object Mappers {
 
-  implicit val secondLevelNestedObjectTransformer: Transformer[SourceSecondLevelNestedObject, TargetSecondLevelNestedObject] = {
+  implicit val secondLevelNestedObjectTransformer =
     Transformer.define[SourceSecondLevelNestedObject, TargetSecondLevelNestedObject]
       .withFieldRenamed(_.sourceSecondLevelNestedItemName, _.targetSecondLevelNestedItemName)
       .buildTransformer
-  }
 
-
-  implicit val nestedItemTransformer: Transformer[SourceNestedItem, TargetNestedItem] = {
+  implicit val nestedItemTransformer =
 
     Transformer.define[SourceNestedItem, TargetNestedItem]
       .withFieldRenamed(_.sourceNestedItemName, _.targetNestedItemName)
       .withFieldRenamed(_.sourceSecondLevelNestedList, _.targetSecondLevelNestedList)
       .buildTransformer
-  }
 
-
-  implicit val rootObjectTransformer: Transformer[RootSourceObject, RootTargetObject] = {
-
+  implicit val rootObjectTransformer =
     Transformer.define[RootSourceObject, RootTargetObject]
       .withFieldRenamed(_.sourceName, _.targetName)
       .withFieldRenamed(_.sourceNestedItemList, _.targetNestedItemList)
       .buildTransformer
-  }
-
 }

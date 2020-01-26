@@ -24,8 +24,6 @@ object HelloWorld {
 
     import Mappers._
 
-
-
     val sourceObjectInstance = RootSourceObject("src-name",List(SourceNestedItem("nested-name",22,
       List(SourceSecondLevelNestedObject("2name")))))
 
@@ -33,7 +31,6 @@ object HelloWorld {
       * i would expect this will work due the the fact that all mapping definitions for root and nested object are provided via
       * implicit variables.
        */
-
 
     val mappedResult = sourceObjectInstance.into[RootTargetObject].transform
 
