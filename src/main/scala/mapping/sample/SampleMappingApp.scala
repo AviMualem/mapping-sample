@@ -19,7 +19,7 @@ case class TargetNestedItem(targetNestedItemName: String, price: BigDecimal, tar
 case class TargetSecondLevelNestedObject(targetSecondLevelNestedItemName: String)
 
 
-case class Person(name: String, age: Int)
+case class PersonDomain(name: String, age: Int)
 
 case class EntityMetadata(lastUpdated: DateTime, creationTime: DateTime, createdBy: String, isDeleted: Boolean)
 
@@ -34,7 +34,14 @@ object HelloWorld {
 
     import Mappers._
 
-    val personDbEntity = DatabaseEntity[Person](Person("avi", 2), EntityMetadata(DateTime.now(), DateTime.now(), "admin", false))
+
+    val personDbEntity = DatabaseEntity[PersonDomain](PersonDomain("avi", 2), EntityMetadata(DateTime.now(), DateTime.now(), "admin", false))
+
+    val personContractWithNoMetadata = personDbEntity.entity.into[PersonContract].transform
+
+    val finalPersonContract = personContractWithNoMetadata.copy(lastUpdated = personDbEntity.entityMetadata.lastUpdated,
+                                                                creationTime = personDbEntity.entityMetadata.creationTime,
+                                                                createdBy = personDbEntity.entityMetadata.createdBy)
 
     val mappingResults = personDbEntity.into[PersonContract].transform
 

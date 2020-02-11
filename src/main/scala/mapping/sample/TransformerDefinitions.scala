@@ -1,6 +1,7 @@
 package mapping.sample
 
 import io.scalaland.chimney.Transformer
+import org.joda.time.{DateTime, DateTimeZone}
 //import mapping.sample.TransformerDefinitions.secondLevelNestedObjectTransformer
 
 //object TransformerDefinitions {
@@ -34,12 +35,18 @@ import io.scalaland.chimney.Transformer
 
 object Mappers {
 
-  implicit val personDbEntityMapper = Transformer.define[DatabaseEntity[Person], PersonContract]
-    .withFieldComputed(_.createdBy,_.entityMetadata.createdBy)
-    .withFieldComputed(_.lastUpdated,_.entityMetadata.lastUpdated)
-    .withFieldComputed(_.creationTime,_.entityMetadata.creationTime)
-    .withFieldComputed(_.name,_.entity.name)
-    .withFieldComputed(_.age,_.entity.age)
+  implicit val personDbEntityMapper = Transformer.define[DatabaseEntity[PersonDomain], PersonContract]
+    .withFieldComputed(_.createdBy, _.entityMetadata.createdBy)
+    .withFieldComputed(_.lastUpdated, _.entityMetadata.lastUpdated)
+    .withFieldComputed(_.creationTime, _.entityMetadata.creationTime)
+    .withFieldComputed(_.name, _.entity.name)
+    .withFieldComputed(_.age, _.entity.age)
+    .buildTransformer
+
+  implicit val personDomainToContractMapper = Transformer.define[PersonDomain, PersonContract]
+    .withFieldConst(_.lastUpdated, null)
+    .withFieldConst(_.creationTime, null)
+    .withFieldConst(_.createdBy,null)
     .buildTransformer
 
 
@@ -55,9 +62,9 @@ object Mappers {
 
       .buildTransformer
 
-//  implicit val rootObjectTransformer =
-//    Transformer.define[RootSourceObject, RootTargetObject]
-//      .withFieldRenamed(_.sourceName, _.targetName)
-//      .withFieldRenamed(_.sourceNestedItemList, _.targetNestedItemList)
-//      .buildTransformer
+  //  implicit val rootObjectTransformer =
+  //    Transformer.define[RootSourceObject, RootTargetObject]
+  //      .withFieldRenamed(_.sourceName, _.targetName)
+  //      .withFieldRenamed(_.sourceNestedItemList, _.targetNestedItemList)
+  //      .buildTransformer
 }
