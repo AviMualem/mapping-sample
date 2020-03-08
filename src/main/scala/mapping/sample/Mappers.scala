@@ -1,7 +1,6 @@
 package mapping.sample
 
 import io.scalaland.chimney.Transformer
-import org.joda.time.{DateTime, DateTimeZone}
 
 
 object Mappers {
